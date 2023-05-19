@@ -1,0 +1,19 @@
+# Use the jenkins-agent for php 8.1
+FROM prengineer/jenkins-agent-php-8.1:x64
+
+LABEL mantainer="Jorge Pabón <pianistapr@hotmail.com>" description="A Test App that simulates a Calculator."
+
+# Switch to the /App directory
+WORKDIR /App
+
+# Copy the application files to the /App folder
+COPY ./app /App/app
+COPY ./tests /App/tests
+COPY ./composer.json /App/composer.json
+COPY ./phpunit.xml /App/phpunit.xml
+
+# Make sure composer updates based on the json file provided
+RUN composer update
+
+# Start the container with PHPUnit
+ENTRYPOINT ["/bin/sh"]
