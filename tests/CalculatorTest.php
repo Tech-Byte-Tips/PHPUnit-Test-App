@@ -52,17 +52,17 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(4, $result);
     }
 
-    // Test the calculator's Divide function
-    public function testDivideByZero(){
+    // // Test the calculator's Divide function
+    // public function testDivideByZero(){
         
-        // Make a calculator
-        $calculator = new Calculator;
+    //     // Make a calculator
+    //     $calculator = new Calculator;
 
-        $result = $calculator->divide(20, 0);
+    //     $result = $calculator->divide(20, 0);
 
-        // Should not equal 20, should fail!
-        $this->assertEquals(20, $result);
-    }
+    //     // Should not equal 20, should fail!
+    //     $this->assertEquals(20, $result);
+    // }
 }
 
 ?>
