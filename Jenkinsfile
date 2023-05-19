@@ -39,7 +39,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build and Push to DockerHub') {
           sh '''
-            /kaniko/executor --context `pwd` --dockerfile=Dockerfile-test-ARM64 --destination prengineer/testapp
+            /kaniko/executor --context "`pwd`" --dockerfile=Dockerfile-test-ARM64 --destination prengineer/testapp
           '''
         }
       }
@@ -59,10 +59,9 @@ podTemplate(yaml: '''
       containers:
       - name: testapp
         image: prengineer/testapp
-        command:
-        - sleep
+        command: ["/bin/sh", "-c"]
         args:
-        - 99d      
+        - phpunit tests --testdox;
       restartPolicy: Never
 ''')
 
@@ -75,11 +74,11 @@ podTemplate(yaml: '''
     /*
         At this stage we run the tests
     */
-    stage('Clone from Git') {
-      git url: 'https://github.com/Tech-Byte-Tips/PHPUnit-Test-App', branch: 'main'
+    stage('Clone from Git') {      
       container('testapp') {
         stage('Execute tests') {
           sh '''
+          composer update
           phpunit tests --testdox
           '''
         }
