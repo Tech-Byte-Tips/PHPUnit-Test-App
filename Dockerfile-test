@@ -7,10 +7,7 @@ LABEL mantainer="Jorge Pabón <pianistapr@hotmail.com>" description="A Test App 
 WORKDIR /App
 
 # Copy the application files to the /App folder
-COPY ./app /App/app
-COPY ./tests /App/tests
-COPY ./composer.json /App/composer.json
-COPY ./phpunit.xml /App/phpunit.xml
+COPY ./app ./tests ./composer.json ./phpunit.xml /App/
 
 # Make sure composer updates based on the json file provided
 RUN composer update
