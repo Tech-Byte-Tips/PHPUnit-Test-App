@@ -2,8 +2,14 @@
 
 namespace App;
 
+/**
+    * @covers \App\Calculator
+*/
 class CalculatorTest extends \PHPUnit\Framework\TestCase {
     
+    /**
+    * @covers \App\Calculator::add
+    */
     // Test the calculator's add function
     public function testAdd(){
         
@@ -16,6 +22,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(25, $result);
     }
 
+    /**
+    * @covers \App\Calculator::subtract
+    */
     // Test the calculator's subtract function
     public function testSubtract(){
         
@@ -28,6 +37,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(15, $result);
     }
 
+    /**
+    * @covers \App\Calculator::multiply
+    */
     // Test the calculator's Multiply function
     public function testMultiply(){
         
@@ -40,6 +52,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(20, $result);
     }
 
+    /**
+    * @covers \App\Calculator::divide
+    */
     // Test the calculator's Divide function
     public function testDivide(){
         
@@ -52,6 +67,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(4, $result);
     }
 
+    /**
+    * @covers \App\Calculator::divide
+    */
     // // Test the calculator's Divide function
     // public function testDivideByZero(){
         
