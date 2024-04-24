@@ -2,6 +2,9 @@
 
 namespace App;
 
+// Require the Calculator app
+require_once 'app/Calculator.php';
+
 /**
     * @covers \App\Calculator
 */

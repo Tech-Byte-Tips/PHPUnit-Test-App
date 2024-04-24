@@ -1,0 +1,77 @@
+// Start the Pipeline
+pipeline {
+
+  // Define the agent where it will run
+  agent {
+
+    // kubernetes = kubernetes cloud in Jenkins
+    kubernetes { 
+
+      // Define the pod template, what will the pods be, and resources for them
+      yaml '''
+      kind: Pod
+      spec:
+        containers:
+        - name: jenkins-php8-agent
+          image: prengineer/jenkins-agent-php-8.1:ARM64
+          imagePullPolicy: Always
+          command:
+          - sleep
+          args:
+          - 1d
+        restartPolicy: Never
+      '''
+
+    }
+
+  }
+  
+  // Define GitHub credentials to use
+  environment {
+    GITHUB_SECRET = credentials('gh-prengineer')
+  }
+
+  // Start declaring the stages of the pipeline
+  stages { 
+
+    // Stage #2 - Run the PHPUnit tests
+    // To perform PHPUnit Tests only, use:
+    // sh 'phpunit --log-junit results/phpunit/junit.xml .'
+    // To perform Code Coverage, use:
+    // sh 'phpunit --coverage-html results/phpunit/clover --coverage-clover results/phpunit/clover.xml --log-junit results/phpunit/junit.xml .'
+    stage('Run PHP Unit Tests') {
+      steps {
+        // Specify the container where the stage will run
+        container('jenkins-php8-agent') {
+          // Execute PHPUnit
+          sh 'phpunit --log-junit results/phpunit/junit.xml --coverage-html results/phpunit/clover --coverage-clover results/phpunit/clover/clover.xml --testdox .'
+          // Have Jenins process the PHPUnit results
+          junit 'results/phpunit/*.xml'
+        }
+      }
+    }
+
+    // Stage #3 - Publish Code Coverage Report
+    stage('Publish Code Coverage Report') {
+      steps {
+        // Specify the container where the stage will run
+        container('jenkins-php8-agent') {
+          // Define how the Clover Plugin should process the code coverage results
+          clover(
+            // Where the HTML and XML reports are located
+            cloverReportDir: 'results/phpunit/clover', cloverReportFileName: 'clover.xml',
+            // Define the health targets for Clover
+            // Optional, default is: method=70, conditional=80, statement=80
+            healthyTarget: [methodCoverage: 70, conditionalCoverage: 70, statementCoverage: 70],
+            // Optional, default is none
+            unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],
+            // Optional, default is none
+            failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]
+          )
+        }
+      }
+    }
+
+  }
+  
+}

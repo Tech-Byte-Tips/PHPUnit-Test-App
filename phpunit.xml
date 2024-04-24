@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Define properties and behavior -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
+         colors="true"
+         bootstrap="autoload.php"
          cacheDirectory=".phpunit.cache"
          executionOrder="depends,defects"
          requireCoverageMetadata="true"
@@ -9,19 +12,31 @@
          beStrictAboutOutputDuringTests="true"
          failOnRisky="true"
          failOnWarning="false"
-         colors="true"
-         stopOnFailure="false">
+         stopOnFailure="true">
 
-    <testsuites>
-        <testsuite name="Calculator">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+  <!-- Include locations of the classes -->
+  <php>
+    <includePath>.</includePath>
+    <includePath>app</includePath>
+    <includePath>tests</includePath>
+  </php>
+  
+  <!-- Specify the Test Suites -->
+  <testsuites>
+    <!-- Name and location of the Test Suite to perform -->
+    <testsuite name="Soda Machine Tests">
+      <!-- Path is relative to the location of this config file -->
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
 
-    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
-        <include>
-            <directory suffix=".php">app</directory>
-        </include>
-    </source>
-
+  <!-- Specify Test Coverage -->
+  <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <include>
+      <!-- Cover all PHP files in the app folder -->
+      <!-- Path is relative to the location of this config file -->
+      <directory suffix=".php">app</directory>
+    </include>
+  </source>
+  
 </phpunit>
